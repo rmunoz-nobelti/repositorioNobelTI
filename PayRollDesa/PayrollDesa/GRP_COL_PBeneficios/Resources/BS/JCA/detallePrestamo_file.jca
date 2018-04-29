@@ -1,0 +1,11 @@
+<adapter-config name="detallePrestamo" adapter="file" wsdlLocation="../WSDL/detallePrestamo.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  <connection-factory location="eis/File/DetallePrestamo"/>
+  <endpoint-interaction portType="Write_ptt" operation="Write">
+    <interaction-spec className="oracle.tip.adapter.file.outbound.FileInteractionSpec">
+      <property name="PhysicalDirectory" value="/oracle/test/archivodetalleprestamo/aEncriptar"/>
+      <property name="NumberMessages" value="1"/>
+      <property name="Append" value="false"/>
+      <property name="FileNamingConvention" value="archivoDP.csv"/>
+    </interaction-spec>
+  </endpoint-interaction>
+</adapter-config>

@@ -1,0 +1,15 @@
+<wsdl:definitions targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/SB_PayRoll/GRP_COL_PBeneficios/fileReference" name="BS_ArchivoSaldoVacaciones-concrete" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:import location="BS/WSDL/saldoVacaciones.wsdl" namespace="http://xmlns.oracle.com/pcbpel/adapter/file/SB_PayRoll/GRP_COL_PBeneficios/fileReference"/>
+    <wsdl:binding name="Write_ptt-binding" type="fil:Write_ptt" xmlns:fil="http://xmlns.oracle.com/pcbpel/adapter/file/SB_PayRoll/GRP_COL_PBeneficios/fileReference">
+        <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+        <wsdl:operation name="Write">
+            <soap:operation soapAction="Write"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

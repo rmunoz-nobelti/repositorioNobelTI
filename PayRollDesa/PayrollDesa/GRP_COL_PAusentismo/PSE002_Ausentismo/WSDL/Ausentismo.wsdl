@@ -1,0 +1,67 @@
+<wsdl:definitions name="Ausentismo" targetNamespace="http://cl.gtd.com/wsdl/Ausentismo" xmlns:tns="http://cl.gtd.com/wsdl/Ausentismo" xmlns:inp1="http://cl.gtd.com/schemas/vacacionesAprobadasRequest" xmlns:inp2="http://cl.gtd.com/schemas/vacacionesAprobadasResponse" xmlns:inp3="http://cl.gtd.com/schemas/licenciasRequest" xmlns:inp4="http://cl.gtd.com/schemas/licenciasResponse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+  
+    <xsd:schema>
+      <xsd:import namespace="http://cl.gtd.com/schemas/vacacionesAprobadasRequest" schemaLocation="../XSD/vacacionesAprobadasExpRequest.xsd"/>
+      <xsd:import namespace="http://cl.gtd.com/schemas/vacacionesAprobadasResponse" schemaLocation="../XSD/vacacionesAprobadasExpResponse.xsd"/>
+    </xsd:schema>
+
+    <xsd:schema>
+      <xsd:import namespace="http://cl.gtd.com/schemas/licenciasRequest" schemaLocation="../XSD/licenciasExpRequest.xsd"/>
+      <xsd:import namespace="http://cl.gtd.com/schemas/licenciasResponse" schemaLocation="../XSD/licenciasExpResponse.xsd"/>
+    </xsd:schema>
+    
+  </wsdl:types>
+  
+  
+  <wsdl:message name="vacacionesAprobadasRequestMessage">
+    <wsdl:part name="vacacionesAprobadasReq" element="inp1:vacacionesAprobadasRequest"/>
+  </wsdl:message>
+  <wsdl:message name="vacacionesAprobadasReplyMessage">
+    <wsdl:part name="vacacionesAprobadasRsp" element="inp2:vacacionesAprobadasResponse"/>
+  </wsdl:message>
+  
+  
+  <wsdl:message name="licenciasRequestMessage">
+    <wsdl:part name="licenciasReq" element="inp3:licenciasRequest"/>
+  </wsdl:message>
+  <wsdl:message name="licenciasReplyMessage">
+    <wsdl:part name="licenciasRsp" element="inp4:licenciasResponse"/>
+  </wsdl:message>
+  
+  
+  <wsdl:portType name="ausentismoPt">
+    <wsdl:operation name="vacacionesAprobadas">
+      <wsdl:input message="tns:vacacionesAprobadasRequestMessage"/>
+      <wsdl:output message="tns:vacacionesAprobadasReplyMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="licencias">
+      <wsdl:input message="tns:licenciasRequestMessage"/>
+      <wsdl:output message="tns:licenciasReplyMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="ausentismoBinding" type="tns:ausentismoPt">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="vacacionesAprobadas">
+      <soap:operation style="document" soapAction="vacacionesAprobadas"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/Ausentismo"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/Ausentismo"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <wsdl:operation name="licencias">
+      <soap:operation style="document" soapAction="licencias"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/Ausentismo"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/Ausentismo"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+</wsdl:definitions>

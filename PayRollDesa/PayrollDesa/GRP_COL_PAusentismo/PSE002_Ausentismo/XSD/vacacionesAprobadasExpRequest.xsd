@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:tns="http://cl.gtd.com/schemas/vacacionesAprobadasRequest" targetNamespace="http://cl.gtd.com/schemas/vacacionesAprobadasRequest" elementFormDefault="qualified">
+
+<xsd:element name="vacacionesAprobadasRequest">
+    <xsd:complexType>
+        <xsd:sequence>
+              <xsd:element name="cedulaEmpleado" minOccurs="1">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:maxLength value="11"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:element>
+              <xsd:element type="xsd:int" name="diasSolicitadosEnTiempo" minOccurs="1"/>
+              <xsd:element type="xsd:int" name="diasSolicitadosEnDinero" minOccurs="1"/>
+              <xsd:element type="xsd:string" name="fechaInicioVacaciones" minOccurs="1"/>
+            </xsd:sequence>
+          </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

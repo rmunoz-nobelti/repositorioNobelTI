@@ -1,0 +1,37 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+            xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" nxsd:encoding="UTF-8">
+  <xsd:element name="Interfaz12Resp">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="PAGO" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="EMP_CODIGO" type="xsd:string"/>
+              <xsd:element name="ID_PRESTAMO" type="xsd:string"/>
+              <xsd:element name="TOTAL_CUOTAS" type="xsd:string"/>
+              <xsd:element name="CUOTA_PAGADA" type="xsd:string"/>
+              <xsd:element name="VALOR_CUOTA" type="xsd:string"/>
+              <xsd:element name="FECHA_DESCUENTO" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+         <xsd:element name="InfoProceso">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="MensajeRetorno" type="xsd:string"/>
+              <xsd:element name="LogProceso">
+                  <xsd:complexType>
+                    <xsd:sequence>
+                      <xsd:element name="Errores"/>
+                      <xsd:element name="Resumen"/>
+                    </xsd:sequence>
+                  </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

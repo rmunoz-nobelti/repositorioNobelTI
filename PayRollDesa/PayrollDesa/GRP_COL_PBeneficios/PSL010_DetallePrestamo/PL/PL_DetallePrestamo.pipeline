@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="GRP_COL_PBeneficios/PSL010_DetallePrestamo/WSDL/detallePrestamoLoc"/>
+            <con:binding>
+                <con:name>detallePrestamoBinding</con:name>
+                <con:namespace>http://cl.gtd.com/wsdl/detallePrestamo</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router errorHandler="error-N560149b1.6c92c22d.0.15f301b2132.N7c93">
+        <con:pipeline type="error" name="error-N560149b1.6c92c22d.0.15f301b2132.N7c93">
+            <con:stage id="_StageId-N560149b1.6c92c22d.0.15f301b2132.N7c92" name="Error Handler">
+                <con:context/>
+                <con:actions>
+                    <con6:alert xmlns:con6="http://www.bea.com/wli/sb/stages/alert/config">
+                        <con1:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7c5e</con1:id>
+                        <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                        <con6:description>Alerta de error - Servicio: Beneficios - Operación: Detalle Prestamo</con6:description>
+                        <con6:severity>normal</con6:severity>
+                        <con6:payload>
+                            <con1:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$fault}</MensajeSalida>
+</Detalle>]]></con1:xqueryText>
+                        </con6:payload>
+                    </con6:alert>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:route-node name="Detalle Prestamo">
+                <con:context>
+                    <con1:userNsDecl prefix="det1" namespace="http://cl.gtd.com/detallePrestamoLocResponse"/>
+                    <con1:userNsDecl prefix="det" namespace="http://cl.gtd.com/detallePrestamoLocRequest"/>
+                </con:context>
+                <con:actions>
+                    <con2:route>
+                        <con1:id>_ActionId-N560149b1.N67d657c3.0.15ef242f772.N7fcc</con1:id>
+                        <con2:service ref="GRP_COL_PBeneficios/Resources/PS/PSL003_QueryxChange" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con2:operation>gestionarBeneficios</con2:operation>
+                        <con2:outboundTransform>
+                            <con3:assign varName="bodyIn">
+                                <con1:id>_ActionId-N560149b1.N482e7288.0.15f3ab0191a.N7f92</con1:id>
+                                <con3:expr>
+                                    <con1:xqueryText>$body</con1:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N560149b1.N67d657c3.0.15ef242f772.N7fc9</con1:id>
+                                <con3:expr>
+                                    <con1:xqueryTransform>
+                                        <con1:resource ref="GRP_COL_PBeneficios/PSL010_DetallePrestamo/XQ/XQ_DetallePrestamoLoc_TO_QueryxChange"/>
+                                        <con1:param name="detallePrestamo">
+                                            <con1:path>$body/det:detallePrestamo</con1:path>
+                                        </con1:param>
+                                    </con1:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                            <con4:log>
+                                <con1:id>_ActionId-N560149b1.N67d657c3.0.15ef242f772.N7fc3</con1:id>
+                                <con4:logLevel>info</con4:logLevel>
+                                <con4:expr>
+                                    <con1:xqueryText>$body/det:detallePrestamo</con1:xqueryText>
+                                </con4:expr>
+                                <con4:message>Q7_detallePrestamo --></con4:message>
+                            </con4:log>
+                        </con2:outboundTransform>
+                        <con2:responseTransform>
+                            <con4:log>
+                                <con1:id>_ActionId-N560149b1.N67d657c3.0.15ef242f772.N7fc0</con1:id>
+                                <con4:logLevel>info</con4:logLevel>
+                                <con4:expr>
+                                    <con1:xqueryText>$body/det1:InfoProceso</con1:xqueryText>
+                                </con4:expr>
+                                <con4:message>Q7_Respuesta_detallePrestamo --></con4:message>
+                            </con4:log>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N560149b1.N67d657c3.0.15ef242f772.N7fc6</con1:id>
+                                <con3:expr>
+                                    <con1:xqueryTransform>
+                                        <con1:resource ref="GRP_COL_PBeneficios/PSL010_DetallePrestamo/XQ/XQ_QueryxChange_TO_DetallePrestamoLoc"/>
+                                        <con1:param name="detallePrestamoReqQ7">
+                                            <con1:path>$body/Interfaz12Resp</con1:path>
+                                        </con1:param>
+                                    </con1:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                            <con3:assign varName="bodyLog">
+                                <con1:id>_ActionId-N560149b1.308a4d9c.0.15f36b879ec.N7ffe</con1:id>
+                                <con3:expr>
+                                    <con1:xqueryText>$body</con1:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N560149b1.308a4d9c.0.15f36b879ec.N7f61</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryTransform>
+                                        <con1:resource ref="GRP_COL_PBeneficios/PSL010_DetallePrestamo/XQ/XQ_DetallePrestamo_TO_CSV"/>
+                                        <con1:param name="detallePrestamoResponse">
+                                            <con1:path>$body/det1:InfoProceso</con1:path>
+                                        </con1:param>
+                                    </con1:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                            <con3:assign varName="bodyLog2">
+                                <con1:id>_ActionId-N560149b1.308a4d9c.0.15f36b879ec.N7f64</con1:id>
+                                <con3:expr>
+                                    <con1:xqueryText>$body</con1:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                            <con5:route>
+                                <con1:id>_ActionId-N560149b1.3378d8c3.0.15f2fbf7f4a.N7ff8</con1:id>
+                                <con5:service ref="GRP_COL_PBeneficios/Resources/BS/BS_ArchivoDetallePrestamo" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                <con5:operation>Write</con5:operation>
+                                <con5:outboundTransform>
+                                    <con3:replace varName="body" contents-only="true">
+                                        <con1:id>_ActionId-N560149b1.3378d8c3.0.15f2fbf7f4a.N7ff5</con1:id>
+                                        <con3:location>
+                                            <con1:xpathText>.</con1:xpathText>
+                                        </con3:location>
+                                        <con3:expr>
+                                            <con1:xqueryTransform>
+                                                <con1:resource ref="GRP_COL_PBeneficios/PSL010_DetallePrestamo/XQ/xmltocsvDetallePrestamo"/>
+                                                <con1:param name="info">
+                                                    <con1:path>$bodyLog2/InfoProceso</con1:path>
+                                                </con1:param>
+                                            </con1:xqueryTransform>
+                                        </con3:expr>
+                                    </con3:replace>
+                                </con5:outboundTransform>
+                            </con5:route>
+                            <con3:javaCallout>
+                                <con1:id>_ActionId-N560149b1.308a4d9c.0.15f36b879ec.N7f67</con1:id>
+                                <con3:archive ref="GRP_COL_PBeneficios/PSL010_DetallePrestamo/PL/DESUtility"/>
+                                <con3:className>cl.nobelti.DesUtility</con3:className>
+                                <con3:method>public static void encrypt(java.lang.String, java.lang.String, java.lang.String)</con3:method>
+                                <con3:expr>
+                                    <con1:xqueryText>"12345678"</con1:xqueryText>
+                                </con3:expr>
+                                <con3:expr>
+                                    <con1:xqueryText>"/oracle/test/archivodetalleprestamo/aEncriptar/archivoDP.csv"</con1:xqueryText>
+                                </con3:expr>
+                                <con3:expr>
+                                    <con1:xqueryText>fn:replace(fn:replace(concat("/oracle/test/archivodetalleprestamo/encriptado/PRESTAMOS_",fn:replace(fn:substring(fn:string(fn:current-dateTime()), -1, 19),'T' ,'' ),".csv"), '-', ''),':','')</con1:xqueryText>
+                                </con3:expr>
+                            </con3:javaCallout>
+                        </con2:responseTransform>
+                    </con2:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

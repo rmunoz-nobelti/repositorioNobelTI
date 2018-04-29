@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'ISO-8859-15'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" 
+xmlns:tns="http://cl.gtd.com/beneficioRequest" targetNamespace="http://cl.gtd.com/beneficioRequest" 
+elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:encoding="UTF-8">
+  <xsd:element name="beneficioRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="inInexCod" type="xsd:integer"/>
+        <xsd:element name="clXMLSolic" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

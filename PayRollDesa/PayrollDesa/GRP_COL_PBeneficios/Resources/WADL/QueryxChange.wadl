@@ -1,0 +1,24 @@
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://cl.gtd.com/beneficioRequest" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="QueryxChange">RestReference</doc>
+   <grammars>
+      <xsd:schema>
+            <xsd:import namespace="http://cl.gtd.com/beneficioRequest" schemaLocation="../XSD/beneficioRequest.xsd"/>
+        </xsd:schema>
+      <xsd:schema>
+            <xsd:include schemaLocation="../XSD/beneficioResponse.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/Kic_Adm_Ice.Pic_Proc_Int_SW_Publ">
+         <method name="GET" soa:wsdlOperation="gestionarBeneficios">
+            <request soa:paramElement="pns:beneficioRequest" xmlns:pns="http://cl.gtd.com/beneficioRequest">
+               <param name="inInexCod" style="query" soa:expression="$msg.request/tns:inInexCod" type="xsd:integer"/>
+               <param name="clXMLSolic" style="query" soa:expression="$msg.request/tns:clXMLSolic" type="xsd:string"/>
+            </request>
+            <response status="200">
+               <ns0:representation mediaType="application/xml" element="InfoProceso" xmlns="" xmlns:ns0="http://wadl.dev.java.net/2009/02"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>

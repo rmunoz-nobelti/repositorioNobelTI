@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+            xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="http://cl.gtd.com/detallePrestamoLocResponse"
+            targetNamespace="http://cl.gtd.com/detallePrestamoLocResponse" nxsd:encoding="UTF-8">
+  <xsd:element name="InfoProceso">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Pendientes" type="tns:PendientesType" maxOccurs="unbounded"/>
+        <xsd:element name="MensajeRetorno" type="xsd:string"/>
+        <xsd:element name="LogProceso">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="Errores"/>
+              <xsd:element name="Resumen"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="PendientesType">
+    <xsd:sequence>
+      <xsd:element name="CodigoEmpleado" type="xsd:string"/>
+      <xsd:element name="IdPrestamo" type="xsd:integer"/>
+      <xsd:element name="TotalCuotas" type="xsd:integer"/>
+      <xsd:element name="NumeroCuotaPagada" type="xsd:integer"/>
+      <xsd:element name="ValorCuota" type="xsd:integer"/>
+      <xsd:element name="FechaDescuento" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

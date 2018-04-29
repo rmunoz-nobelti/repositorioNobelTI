@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding='ISO-8859-15'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://cl.gtd.com/saldoVacacionesLocRequest"
+            targetNamespace="http://cl.gtd.com/saldoVacacionesLocRequest">
+            
+<xsd:element name="saldoVacaciones">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="Interfaz13Solic">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Params"/>
+      </xsd:sequence>
+    </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ </xsd:element>
+</xsd:schema>

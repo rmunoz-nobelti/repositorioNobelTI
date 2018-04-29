@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="GRP_COL_PAusentismo/PSE002_Ausentismo/WSDL/Ausentismo"/>
+            <con:binding>
+                <con:name>ausentismoBinding</con:name>
+                <con:namespace>http://cl.gtd.com/wsdl/Ausentismo</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="error" name="error-N560149b1.N26cc4906.0.15ece822ebf.N7f9c">
+            <con:stage id="_StageId-N560149b1.N26cc4906.0.15ece822ebf.N7f9b" name="Error Vacaciones Aprobadas">
+                <con:context>
+                    <con1:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con1:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7f98</con1:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert xmlns:con6="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+                                <con1:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7bfa</con1:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Ausentismo - Operación: Vacaciones Aprobadas</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con1:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con1:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7f95</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryTransform>
+                                        <con1:resource ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XQ/XQ_ErrorHandler_TO_VacacionesAprobadasExp"/>
+                                        <con1:param name="estadoOperacion">
+                                            <con1:path>$body/err:estadoOperacion</con1:path>
+                                        </con1:param>
+                                    </con1:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N560149b1.N26cc4906.0.15ece822ebf.N7f94">
+            <con:stage id="_StageId-N560149b1.N26cc4906.0.15ece822ebf.N7f93" name="Error Licencias">
+                <con:context>
+                    <con1:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con1:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7f90</con1:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert xmlns:con6="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+                                <con1:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7bc7</con1:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Ausentismo - Operación: Licencias</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con1:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con1:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7f8d</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryTransform>
+                                        <con1:resource ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XQ/XQ_ErrorHandler_TO_LicenciasExp"/>
+                                        <con1:param name="estadoOperacion">
+                                            <con1:path>$body/err:estadoOperacion</con1:path>
+                                        </con1:param>
+                                    </con1:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:branch-node type="operation" id="_FlowId-N560149b1.38f853b3.0.15e819e9fbb.N7ff1" name="BranchNode1">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="vacacionesAprobadas">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode1" error-handler="error-N560149b1.N26cc4906.0.15ece822ebf.N7f9c">
+                                <con:context>
+                                    <con1:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con1:userNsDecl prefix="vac" namespace="http://cl.gtd.com/schemas/vacacionesAprobadasRequest"/>
+                                    <con1:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/vacacionesAprobadasLocResponse"/>
+                                    <con1:userNsDecl prefix="vac1" namespace="http://cl.gtd.com/schemas/vacacionesAprobadasResponse"/>
+                                </con:context>
+                                <con:actions>
+                                    <con2:route>
+                                        <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7fed</con1:id>
+                                        <con2:service ref="GRP_COL_PAusentismo/PSL007_VacacionesAprobadas/PS/PSL007_VacacionesAprobadas" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con2:operation>vacacionesAprobadas</con2:operation>
+                                        <con2:outboundTransform>
+                                            <con4:log>
+                                                <con1:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7f4d</con1:id>
+                                                <con4:logLevel>info</con4:logLevel>
+                                                <con4:expr>
+                                                    <con1:xqueryText>$body/*</con1:xqueryText>
+                                                </con4:expr>
+                                                <con4:message>vacacionesAprobadasRequest --></con4:message>
+                                            </con4:log>
+                                            <con3:validate>
+                                                <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7fea</con1:id>
+                                                <con3:schema ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XSD/vacacionesAprobadasExpRequest"/>
+                                                <con3:schemaElement xmlns:vac="http://cl.gtd.com/schemas/vacacionesAprobadasRequest">vac:vacacionesAprobadasRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con1:xpathText>./vac:vacacionesAprobadasRequest</con1:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7fe7</con1:id>
+                                                <con3:location>
+                                                    <con1:xpathText>.</con1:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con1:xqueryTransform>
+                                                        <con1:resource ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XQ/XQ_VacacionesAprobadasExp_TO_VacacionesAprobadasLoc"/>
+                                                        <con1:param name="vacacionesAprobadasReq">
+                                                            <con1:path>$body/vac:vacacionesAprobadasRequest</con1:path>
+                                                        </con1:param>
+                                                    </con1:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con2:outboundTransform>
+                                        <con2:responseTransform>
+                                            <con3:wsCallout>
+                                                <con1:id>_ActionId-N560149b1.N7f51f270.0.15eba8668ef.N7ff6</con1:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7fe4</con1:id>
+                                                        <con3:location>
+                                                            <con1:xpathText>.</con1:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con1:xqueryTransform>
+                                                                <con1:resource ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XQ/XQ_ErrorHandler_TO_VacacionesAprobadasExp"/>
+                                                                <con1:param name="estadoOperacion">
+                                                                    <con1:path>$body/err:estadoOperacion</con1:path>
+                                                                </con1:param>
+                                                            </con1:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con2:responseTransform>
+                                    </con2:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="licencias">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode2" error-handler="error-N560149b1.N26cc4906.0.15ece822ebf.N7f94">
+                                <con:context>
+                                    <con1:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con1:userNsDecl prefix="lic" namespace="http://cl.gtd.com/schemas/licenciasRequest"/>
+                                    <con1:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/licenciasLocResponse"/>
+                                </con:context>
+                                <con:actions>
+                                    <con2:route>
+                                        <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7f71</con1:id>
+                                        <con2:service ref="GRP_COL_PAusentismo/PSL008_Licencias/PS/PSL008_Licencias" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con2:operation>licencias</con2:operation>
+                                        <con2:outboundTransform>
+                                            <con4:log>
+                                                <con1:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7f48</con1:id>
+                                                <con4:logLevel>info</con4:logLevel>
+                                                <con4:expr>
+                                                    <con1:xqueryText>$body/*</con1:xqueryText>
+                                                </con4:expr>
+                                                <con4:message>licenciasRequest --></con4:message>
+                                            </con4:log>
+                                            <con3:validate>
+                                                <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7f6e</con1:id>
+                                                <con3:schema ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XSD/licenciasExpRequest"/>
+                                                <con3:schemaElement xmlns:lic="http://cl.gtd.com/schemas/licenciasRequest">lic:licenciasRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con1:xpathText>./lic:licenciasRequest</con1:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7f6a</con1:id>
+                                                <con3:location>
+                                                    <con1:xpathText>.</con1:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con1:xqueryTransform>
+                                                        <con1:resource ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XQ/XQ_LicenciasExp_TO_LicenciasLoc"/>
+                                                        <con1:param name="licenciasReq">
+                                                            <con1:path>$body/lic:licenciasRequest</con1:path>
+                                                        </con1:param>
+                                                    </con1:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con2:outboundTransform>
+                                        <con2:responseTransform>
+                                            <con3:wsCallout>
+                                                <con1:id>_ActionId-N560149b1.N7f51f270.0.15eba8668ef.N7ff2</con1:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con1:id>_ActionId-N560149b1.38f853b3.0.15e819e9fbb.N7f67</con1:id>
+                                                        <con3:location>
+                                                            <con1:xpathText>.</con1:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con1:xqueryTransform>
+                                                                <con1:resource ref="GRP_COL_PAusentismo/PSE002_Ausentismo/XQ/XQ_ErrorHandler_TO_LicenciasExp"/>
+                                                                <con1:param name="estadoOperacion">
+                                                                    <con1:path>$body/err:estadoOperacion</con1:path>
+                                                                </con1:param>
+                                                            </con1:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con2:responseTransform>
+                                    </con2:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow/>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

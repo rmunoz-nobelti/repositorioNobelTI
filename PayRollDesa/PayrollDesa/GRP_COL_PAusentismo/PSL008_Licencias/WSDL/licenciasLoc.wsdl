@@ -1,0 +1,37 @@
+<definitions targetNamespace="http://cl.gtd.com/wsdl/licencias" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://cl.gtd.com/wsdl/licencias" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:req="http://cl.gtd.com/licenciasLocRequest" xmlns:rsp="http://cl.gtd.com/licenciasLocResponse">
+  <types>
+    <xsd:schema targetNamespace="http://cl.gtd.com/wsdl/licencias/types" elementFormDefault="qualified">
+    <xsd:import namespace="http://cl.gtd.com/licenciasLocRequest" schemaLocation="../XSD/licenciasLocRequest.xsd"/>
+    <xsd:import namespace="http://cl.gtd.com/licenciasLocResponse" schemaLocation="../XSD/licenciasLocResponse.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="licenciasLocRequestMessage">
+    <part name="request" element="req:licencias"/>
+  </message>
+  <message name="licenciasLocResponseMessage">
+    <part name="response" element="rsp:InfoProceso"/>
+  </message>
+  <portType name="licenciasPt">
+    <operation name="licencias">
+      <input message="tns:licenciasLocRequestMessage"/>
+      <output message="tns:licenciasLocResponseMessage"/>
+    </operation>
+  </portType>
+  <binding name="licenciasBinding" type="tns:licenciasPt">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="licencias">
+      <soap:operation soapAction="licencias" style="document"/>
+      <input>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/licencias/licenciasLocRequest"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/licencias/licenciasLocResponse"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="licenciasService">
+    <port name="licenciasPt" binding="tns:licenciasBinding">
+      <soap:address location="http://localhost:7101/licenciasLoc"/>
+    </port>
+  </service>
+</definitions>

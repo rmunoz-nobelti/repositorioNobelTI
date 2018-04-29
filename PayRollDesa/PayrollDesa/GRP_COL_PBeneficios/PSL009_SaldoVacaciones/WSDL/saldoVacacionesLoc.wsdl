@@ -1,0 +1,37 @@
+<definitions targetNamespace="http://cl.gtd.com/wsdl/saldoVacaciones" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://cl.gtd.com/wsdl/saldoVacaciones" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:req="http://cl.gtd.com/saldoVacacionesLocRequest" xmlns:rsp="http://cl.gtd.com/saldoVacacionesLocResponse">
+  <types>
+    <xsd:schema targetNamespace="http://cl.gtd.com/wsdl/saldoVacaciones/types" elementFormDefault="qualified">
+    <xsd:import namespace="http://cl.gtd.com/saldoVacacionesLocRequest" schemaLocation="../XSD/saldoVacacionesLocRequest.xsd"/>
+    <xsd:import namespace="http://cl.gtd.com/saldoVacacionesLocResponse" schemaLocation="../XSD/saldoVacacionesLocResponse.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="saldoVacacionesLocRequestMessage">
+    <part name="request" element="req:saldoVacaciones"/>
+  </message>
+  <message name="saldoVacacionesLocResponseMessage">
+    <part name="response" element="rsp:InfoProceso"/>
+  </message>
+  <portType name="saldoVacacionesPt">
+    <operation name="saldoVacaciones">
+      <input message="tns:saldoVacacionesLocRequestMessage"/>
+      <output message="tns:saldoVacacionesLocResponseMessage"/>
+    </operation>
+  </portType>
+  <binding name="saldoVacacionesBinding" type="tns:saldoVacacionesPt">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="saldoVacaciones">
+      <soap:operation soapAction="saldoVacaciones" style="document"/>
+      <input>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/saldoVacaciones/saldoVacacionesLocRequest"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://cl.gtd.com/wsdl/saldoVacaciones/saldoVacacionesLocResponse"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="saldoVacacionesService">
+    <port name="saldoVacacionesPt" binding="tns:saldoVacacionesBinding">
+      <soap:address location="http://localhost:7101/saldoVacacionesLoc"/>
+    </port>
+  </service>
+</definitions>

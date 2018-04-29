@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con6="http://www.bea.com/wli/sb/stages/alert/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="GRP_COL_PEmpleado/PSE001_Empleado/WSDL/Empleado"/>
+            <con:binding>
+                <con:name>empleadoBinding</con:name>
+                <con:namespace>http://cl.gtd.com/wsdl/Empleado</con:namespace>
+            </con:binding>
+        </con:binding>
+        <oper:operations xmlns:oper="http://xmlns.oracle.com/servicebus/pipeline/operations">
+            <oper:tracingEnabled>true</oper:tracingEnabled>
+            <oper:monitoring enabled="true" level="service" aggregationInterval="10"/>
+        </oper:operations>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="error" name="error-N3f57fef9.N2f5bdecd.0.15ebe8a6e9e.N7da6">
+            <con:stage id="_StageId-N3f57fef9.N2f5bdecd.0.15ebe8a6e9e.N7da5" name="Error Crear Empleado">
+                <con:context>
+                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-N3f57fef9.N2f5bdecd.0.15ebe8a6e9e.N7da2</con2:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert>
+                                <con2:id>_ActionId-ad7640e.70ef28ab.0.15fdb22e731.N7ffb</con2:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Empleado -  Operación: Crear Empleado</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con2:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con2:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con2:id>_ActionId-N3f57fef9.N2f5bdecd.0.15ebe8a6e9e.N7d9f</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_CrearEmpleadoExp"/>
+                                        <con2:param name="estadoOperacion">
+                                            <con2:path>$body/err:estadoOperacion</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f48">
+            <con:stage id="_StageId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f47" name="Error Actualizar Empleado">
+                <con:context>
+                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f44</con2:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert>
+                                <con2:id>_ActionId-ad7640e.70ef28ab.0.15fdb22e731.N7ff8</con2:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Empleado -  Operación: Actualizar Empleado</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con2:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con2:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con2:id>_ActionId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f41</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_ActualizarEmpleadoExp"/>
+                                        <con2:param name="estadoOperacion">
+                                            <con2:path>$body/err:estadoOperacion</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N560149b1.N26cc4906.0.15ece822ebf.N7fee">
+            <con:stage id="_StageId-N560149b1.N26cc4906.0.15ece822ebf.N7fed" name="Error Existe Cedula">
+                <con:context>
+                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fea</con2:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert>
+                                <con2:id>_ActionId-ad7640e.70ef28ab.0.15fdb22e731.N7ff5</con2:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Empleado -  Operación: Existe Cédula</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con2:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con2:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fe7</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_ExisteCedulaExp"/>
+                                        <con2:param name="estadoOperacion">
+                                            <con2:path>$body/err:estadoOperacion</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N560149b1.N26cc4906.0.15ece822ebf.N7fe6">
+            <con:stage id="_StageId-N560149b1.N26cc4906.0.15ece822ebf.N7fe5" name="Error Retirar Empleado">
+                <con:context>
+                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fe2</con2:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert>
+                                <con2:id>_ActionId-ad7640e.70ef28ab.0.15fdb22e731.N7ff2</con2:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Empleado -  Operación: Retirar Empleado</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con2:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con2:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fdf</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_RetirarEmpleadoExp"/>
+                                        <con2:param name="estadoOperacion">
+                                            <con2:path>$body/err:estadoOperacion</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N560149b1.N26cc4906.0.15ece822ebf.N7fdd">
+            <con:stage id="_StageId-N560149b1.N26cc4906.0.15ece822ebf.N7fdc" name="Error Crear Beneficiario">
+                <con:context>
+                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fd9</con2:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert>
+                                <con2:id>_ActionId-ad7640e.70ef28ab.0.15fdb22e731.N7fef</con2:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Empleado -  Operación: Crear Beneficiario</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con2:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con2:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fd6</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_CrearBeneficiarioExp"/>
+                                        <con2:param name="estadoOperacion">
+                                            <con2:path>$body/err:estadoOperacion</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N560149b1.N26cc4906.0.15ece822ebf.N7fd5">
+            <con:stage id="_StageId-N560149b1.N26cc4906.0.15ece822ebf.N7fd4" name="Error Crear Prestamo">
+                <con:context>
+                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fd1</con2:id>
+                        <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:request>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:request>
+                        <con3:response>
+                            <con3:payload wrapped="true">body</con3:payload>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con6:alert>
+                                <con2:id>_ActionId-ad7640e.70ef28ab.0.15fdb22e731.N7fec</con2:id>
+                                <con6:destination ref="UT_Common/Alerts/alertaPayroll"/>
+                                <con6:description>Alerta de error - Servicio: Empleado -  Operación: Crear Préstamo</con6:description>
+                                <con6:severity>normal</con6:severity>
+                                <con6:payload>
+                                    <con2:xqueryText><![CDATA[<Detalle>
+<MensajeEntrada>{$bodyIn}</MensajeEntrada>
+<MensajeSalida>{$body}</MensajeSalida>
+</Detalle>]]></con2:xqueryText>
+                                </con6:payload>
+                            </con6:alert>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:replace varName="body" contents-only="true">
+                                <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7fce</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_CrearPrestamoExp"/>
+                                        <con2:param name="estadoOperacion">
+                                            <con2:path>$body/err:estadoOperacion</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:branch-node type="operation" id="_FlowId-N3f5703a2.45a9aa9a.0.15e527f562c.N7ff5" name="BranchNode1">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="crearEmpleado">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode1" error-handler="error-N3f57fef9.N2f5bdecd.0.15ebe8a6e9e.N7da6">
+                                <con:context>
+                                    <con2:userNsDecl prefix="cre2" namespace="http://cl.gtd.com/schemas/crearEmpleadoResponse"/>
+                                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con2:userNsDecl prefix="cre1" namespace="http://cl.gtd.com/schemas/crearEmpleadoRequest"/>
+                                    <con2:userNsDecl prefix="cre" namespace="http://cl.gtd.com/schemas/crearEmpleadoExpRequest"/>
+                                    <con2:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/crearEmpleadoLocResponse"/>
+                                    <con4:variable name="estadoOperacion" path="$estadoOperacion" asChild="false">
+                                        <con4:schema ref="UTL_ErrorHandler/GRP_COL/XSD/errorHandlerResponse" element="estadoOperacion"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-N3f5703a2.45a9aa9a.0.15e527f562c.N7ff1</con2:id>
+                                        <con1:service ref="GRP_COL_PEmpleado/PSL002_CrearEmpleado/PS/PSL002_CrearEmpleado" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>crearEmpleado</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:assign varName="bodyIn">
+                                                <con2:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7f5f</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$body</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con5:log>
+                                                <con2:id>_ActionId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f9b</con2:id>
+                                                <con5:logLevel>info</con5:logLevel>
+                                                <con5:expr>
+                                                    <con2:xqueryText>$body/*</con2:xqueryText>
+                                                </con5:expr>
+                                                <con5:message>crearEmpleadoRequest --></con5:message>
+                                            </con5:log>
+                                            <con3:validate>
+                                                <con2:id>_ActionId-N3f5703a2.45a9aa9a.0.15e527f562c.N7fee</con2:id>
+                                                <con3:schema ref="GRP_COL_PEmpleado/PSE001_Empleado/XSD/crearEmpleadoExpRequest"/>
+                                                <con3:schemaElement xmlns:cre="http://cl.gtd.com/schemas/crearEmpleadoRequest">cre:crearEmpleadoRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con2:xpathText>./cre1:crearEmpleadoRequest</con2:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-N3f570399.8a840fb.0.15e58fa08d1.N7ffe</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_CrearEmpleadoExp_TO_CrearEmpleadoLoc"/>
+                                                        <con2:param name="crearEmpleadoReq">
+                                                            <con2:path>$body/cre1:crearEmpleadoRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:wsCallout>
+                                                <con2:id>_ActionId-N3f5703ae.N790eda5c.0.15eaa617fc2.N7f8e</con2:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-N3f5703ae.N790eda5c.0.15eaa617fc2.N7f24</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_CrearEmpleadoExp"/>
+                                                                <con2:param name="estadoOperacion">
+                                                                    <con2:path>$body/err:estadoOperacion</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="actualizarEmpleado">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode2" error-handler="error-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f48">
+                                <con:context>
+                                    <con2:userNsDecl prefix="act1" namespace="http://cl.gtd.com/schemas/actualizarEmpleadoResponse"/>
+                                    <con2:userNsDecl prefix="act" namespace="http://cl.gtd.com/schemas/actualizarEmpleadoRequest"/>
+                                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con2:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/actualizarEmpleadoLocResponse"/>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-N3f57fef9.N5f45c1f8.0.15e629884ab.N7f37</con2:id>
+                                        <con1:service ref="GRP_COL_PEmpleado/PSL003_ActualizarEmpleado/PS/PSL003_ActualizarEmpleado" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>actualizarEmpleado</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:assign varName="bodyIn">
+                                                <con2:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7f2a</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$body</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con5:log>
+                                                <con2:id>_ActionId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f98</con2:id>
+                                                <con5:logLevel>info</con5:logLevel>
+                                                <con5:expr>
+                                                    <con2:xqueryText>$body/*</con2:xqueryText>
+                                                </con5:expr>
+                                                <con5:message>actualizarEmpleadoRequest --></con5:message>
+                                            </con5:log>
+                                            <con3:validate>
+                                                <con2:id>_ActionId-N3f57fef9.N5f45c1f8.0.15e629884ab.N7f34</con2:id>
+                                                <con3:schema ref="GRP_COL_PEmpleado/PSE001_Empleado/XSD/actualizarEmpleadoExpRequest"/>
+                                                <con3:schemaElement xmlns:act="http://cl.gtd.com/schemas/actualizarEmpleadoRequest">act:actualizarEmpleadoRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con2:xpathText>./act:actualizarEmpleadoRequest</con2:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-N3f57fef9.N5f45c1f8.0.15e629884ab.N7f31</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ActualizarEmpleadoExp_TO_ActualizarEmpleadoLoc"/>
+                                                        <con2:param name="actualizarEmpleadoReq">
+                                                            <con2:path>$body/act:actualizarEmpleadoRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:wsCallout>
+                                                <con2:id>_ActionId-N560149b1.N6e45181a.0.15eb9d8cc2e.N7ffe</con2:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-N3f57fef9.57b231e.0.15e7b9085bc.N7f8c</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_ActualizarEmpleadoExp"/>
+                                                                <con2:param name="estadoOperacion">
+                                                                    <con2:path>$body/err:estadoOperacion</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="existeCedula">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode3" error-handler="error-N560149b1.N26cc4906.0.15ece822ebf.N7fee">
+                                <con:context>
+                                    <con2:userNsDecl prefix="exis" namespace="http://cl.gtd.com/schemas/existeCedulaRequest"/>
+                                    <con2:userNsDecl prefix="exis1" namespace="http://cl.gtd.com/schemas/existeCedulaResponse"/>
+                                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-N560149b1.N737a1e80.0.15e6317e9d4.N7fc4</con2:id>
+                                        <con1:service ref="GRP_COL_PEmpleado/PSL001_ExisteCedula/PS/PSL001_ExisteCedula" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>existeCedula</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:assign varName="bodyIn">
+                                                <con2:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7ef7</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$body</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con5:log>
+                                                <con2:id>_ActionId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f8f</con2:id>
+                                                <con5:logLevel>info</con5:logLevel>
+                                                <con5:expr>
+                                                    <con2:xqueryText>$body/*</con2:xqueryText>
+                                                </con5:expr>
+                                                <con5:message>existeCedulaRequest --></con5:message>
+                                            </con5:log>
+                                            <con3:validate>
+                                                <con2:id>_ActionId-N560149b1.N737a1e80.0.15e6317e9d4.N7fc1</con2:id>
+                                                <con3:schema ref="GRP_COL_PEmpleado/PSE001_Empleado/XSD/existeCedulaExpRequest"/>
+                                                <con3:schemaElement xmlns:exis="http://cl.gtd.com/schemas/existeCedulaRequest">exis:existeCedulaRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con2:xpathText>./exis:existeCedulaRequest</con2:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-N560149b1.N737a1e80.0.15e6317e9d4.N7fbe</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ExisteCedulaExp_TO_ExisteCedulaLoc"/>
+                                                        <con2:param name="existeCedulaExpRequest">
+                                                            <con2:path>$body/exis:existeCedulaRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:wsCallout>
+                                                <con2:id>_ActionId-N560149b1.N6e45181a.0.15eb9d8cc2e.N7ffa</con2:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-N3f57fef9.57b231e.0.15e7b9085bc.N7f83</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_ExisteCedulaExp"/>
+                                                                <con2:param name="estadoOperacion">
+                                                                    <con2:path>$body/err:estadoOperacion</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="retirarEmpleado">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode4" error-handler="error-N560149b1.N26cc4906.0.15ece822ebf.N7fe6">
+                                <con:context>
+                                    <con2:userNsDecl prefix="ret" namespace="http://cl.gtd.com/schemas/retirarEmpleadoRequest"/>
+                                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con2:userNsDecl prefix="ret1" namespace="http://cl.gtd.com/schemas/retirarEmpleadoResponse"/>
+                                    <con2:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/retirarEmpleadoLocResponse"/>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-N3f57fef9.2ef54826.0.15e719462ef.N7f09</con2:id>
+                                        <con1:service ref="GRP_COL_PEmpleado/PSL004_RetirarEmpleado/PS/PSL004_RetirarEmpleado" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>retirarEmpleado</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:assign varName="bodyIn">
+                                                <con2:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7ec4</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$body</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con5:log>
+                                                <con2:id>_ActionId-N3f57039c.N32b337ca.0.15ece5f4fc0.N7f8c</con2:id>
+                                                <con5:logLevel>info</con5:logLevel>
+                                                <con5:expr>
+                                                    <con2:xqueryText>$body/*</con2:xqueryText>
+                                                </con5:expr>
+                                                <con5:message>retirarEmpleadoRequest --></con5:message>
+                                            </con5:log>
+                                            <con3:validate>
+                                                <con2:id>_ActionId-N3f57fef9.2ef54826.0.15e719462ef.N7f06</con2:id>
+                                                <con3:schema ref="GRP_COL_PEmpleado/PSE001_Empleado/XSD/retirarEmpleadoExpRequest"/>
+                                                <con3:schemaElement xmlns:ret="http://cl.gtd.com/schemas/retirarEmpleadoRequest">ret:retirarEmpleadoRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con2:xpathText>./ret:retirarEmpleadoRequest</con2:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-N3f57fef9.2ef54826.0.15e719462ef.N7f03</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_RetirarEmpleadoExp_TO_RetirarEmpleadoLoc"/>
+                                                        <con2:param name="retirarEmpleadoReq">
+                                                            <con2:path>$body/ret:retirarEmpleadoRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:wsCallout>
+                                                <con2:id>_ActionId-N560149b1.N7f51f270.0.15eba8668ef.N7ffe</con2:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-N3f57fef9.57b231e.0.15e7b9085bc.N7f86</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_RetirarEmpleadoExp"/>
+                                                                <con2:param name="estadoOperacion">
+                                                                    <con2:path>$body/err:estadoOperacion</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="crearBeneficiario">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode5" error-handler="error-N560149b1.N26cc4906.0.15ece822ebf.N7fdd">
+                                <con:context>
+                                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con2:userNsDecl prefix="cre1" namespace="http://cl.gtd.com/schemas/crearBeneficiarioResponse"/>
+                                    <con2:userNsDecl prefix="cre" namespace="http://cl.gtd.com/schemas/crearBeneficiarioRequest"/>
+                                    <con2:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/crearBeneficiarioLocResponse"/>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f4d</con2:id>
+                                        <con1:service ref="GRP_COL_PEmpleado/PSL005_CrearBeneficiario/PS/PSL005_CrearBeneficiario" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>crearBeneficiario</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:assign varName="bodyIn">
+                                                <con2:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7e91</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$body</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con5:log>
+                                                <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7ffe</con2:id>
+                                                <con5:logLevel>info</con5:logLevel>
+                                                <con5:expr>
+                                                    <con2:xqueryText>$body/*</con2:xqueryText>
+                                                </con5:expr>
+                                                <con5:message>crearBeneficiarioRequest --></con5:message>
+                                            </con5:log>
+                                            <con3:validate>
+                                                <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f4a</con2:id>
+                                                <con3:schema ref="GRP_COL_PEmpleado/PSE001_Empleado/XSD/crearBeneficiarioExpRequest"/>
+                                                <con3:schemaElement xmlns:cre="http://cl.gtd.com/schemas/crearBeneficiarioRequest">cre:crearBeneficiarioRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con2:xpathText>./cre:crearBeneficiarioRequest</con2:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f47</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_CrearBeneficiarioExp_TO_CrearBeneficiarioLoc"/>
+                                                        <con2:param name="crearBeneficiarioReq">
+                                                            <con2:path>$body/cre:crearBeneficiarioRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:wsCallout>
+                                                <con2:id>_ActionId-N560149b1.N6e45181a.0.15eb9d8cc2e.N7ff6</con2:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f44</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_CrearBeneficiarioExp"/>
+                                                                <con2:param name="estadoOperacion">
+                                                                    <con2:path>$body/err:estadoOperacion</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="crearPrestamo">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode6" error-handler="error-N560149b1.N26cc4906.0.15ece822ebf.N7fd5">
+                                <con:context>
+                                    <con2:userNsDecl prefix="err" namespace="http://cl.grupogtd.com/schemas/errorHandler"/>
+                                    <con2:userNsDecl prefix="cre1" namespace="http://cl.gtd.com/schemas/crearPrestamoResponse"/>
+                                    <con2:userNsDecl prefix="cre" namespace="http://cl.gtd.com/schemas/crearPrestamoRequest"/>
+                                    <con2:userNsDecl prefix="ns1" namespace="http://cl.gtd.com/crearPrestamoLocResponse"/>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f41</con2:id>
+                                        <con1:service ref="GRP_COL_PEmpleado/PSL006_CrearPrestamo/PS/PSL006_CrearPrestamo" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>crearPrestamo</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:assign varName="bodyIn">
+                                                <con2:id>_ActionId-N560149b1.6c92c22d.0.15f301b2132.N7e5e</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryText>$body</con2:xqueryText>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con5:log>
+                                                <con2:id>_ActionId-N560149b1.N26cc4906.0.15ece822ebf.N7ffb</con2:id>
+                                                <con5:logLevel>info</con5:logLevel>
+                                                <con5:expr>
+                                                    <con2:xqueryText>$body/*</con2:xqueryText>
+                                                </con5:expr>
+                                                <con5:message>crearPrestamoRequest --></con5:message>
+                                            </con5:log>
+                                            <con3:validate>
+                                                <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f3e</con2:id>
+                                                <con3:schema ref="GRP_COL_PEmpleado/PSE001_Empleado/XSD/crearPrestamoExpRequest"/>
+                                                <con3:schemaElement xmlns:cre="http://cl.gtd.com/schemas/crearPrestamoRequest">cre:crearPrestamoRequest</con3:schemaElement>
+                                                <con3:varName>body</con3:varName>
+                                                <con3:location>
+                                                    <con2:xpathText>./cre:crearPrestamoRequest</con2:xpathText>
+                                                </con3:location>
+                                            </con3:validate>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f38</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_CrearPrestamoExp_TO_CrearPrestamoLoc"/>
+                                                        <con2:param name="crearPrestamoLoc">
+                                                            <con2:path>$body/cre:crearPrestamoRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:wsCallout>
+                                                <con2:id>_ActionId-N560149b1.N7f51f270.0.15eba8668ef.N7ffa</con2:id>
+                                                <con3:service ref="UTL_ErrorHandler/GRP_COL/PS/PSL_ErrorHandler" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                <con3:request>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:request>
+                                                <con3:response>
+                                                    <con3:payload wrapped="true">body</con3:payload>
+                                                </con3:response>
+                                                <con3:requestTransform/>
+                                                <con3:responseTransform>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-N3f57fef9.76707302.0.15e81418d4a.N7f3b</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="GRP_COL_PEmpleado/PSE001_Empleado/XQ/XQ_ErrorHandler_TO_CrearPrestamoExp"/>
+                                                                <con2:param name="estadoOperacion">
+                                                                    <con2:path>$body/err:estadoOperacion</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:responseTransform>
+                                            </con3:wsCallout>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow/>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

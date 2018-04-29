@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="GRP_COL_PAusentismo/PSL008_Licencias/WSDL/licenciasLoc"/>
+            <con:binding>
+                <con:name>licenciasBinding</con:name>
+                <con:namespace>http://cl.gtd.com/wsdl/licencias</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-N560149b1.464c2b11.0.15f54c4764b.N7f27">
+            <con:stage id="_StageId-N560149b1.464c2b11.0.15f54c4764b.N7f25" name="Stage1">
+                <con:context>
+                    <con1:userNsDecl prefix="lic" namespace="http://cl.gtd.com/licenciasLocRequest"/>
+                </con:context>
+                <con:actions>
+                    <con3:javaCallout varName="responseQ7">
+                        <con1:id>_ActionId-N560149b1.464c2b11.0.15f54c4764b.N7f21</con1:id>
+                        <con3:archive ref="GRP_COL_PAusentismo/Resources/JAR/restclient"/>
+                        <con3:className>cl.nobelti.restclient.NetClient</con3:className>
+                        <con3:method>public static java.lang.String callQ7(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)</con3:method>
+                        <con3:expr>
+                            <con1:xqueryText>"http://10.0.15.66:9090/WS_GTD_Xchange/Kic_Adm_Ice.Pic_Proc_Int_SW_Publ?inInexCod="</con1:xqueryText>
+                        </con3:expr>
+                        <con3:expr>
+                            <con1:xqueryText>"Basic V1NHVEQ6V1NHVEQ3Nzc="</con1:xqueryText>
+                        </con3:expr>
+                        <con3:expr>
+                            <con1:xqueryText>"8"</con1:xqueryText>
+                        </con3:expr>
+                        <con3:expr>
+                            <con1:xqueryText>fn-bea:serialize($body/lic:licencias/Interfaz8Solic)</con1:xqueryText>
+                        </con3:expr>
+                        <con3:expr>
+                            <con1:xqueryText>"iso-8859-1"</con1:xqueryText>
+                        </con3:expr>
+                        <con3:expr>
+                            <con1:xqueryText>"GET"</con1:xqueryText>
+                        </con3:expr>
+                        <con3:expr>
+                            <con1:xqueryText>"application/xml"</con1:xqueryText>
+                        </con3:expr>
+                        <con3:return-param-as-ref>false</con3:return-param-as-ref>
+                    </con3:javaCallout>
+                    <con3:assign varName="logResponse">
+                        <con1:id>_ActionId-N560149b1.464c2b11.0.15f54c4764b.N7f1d</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>$responseQ7</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N560149b1.464c2b11.0.15f54c4764b.N7f26">
+            <con:stage id="_StageId-N560149b1.464c2b11.0.15f54c4764b.N7f24" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con3:replace varName="body" contents-only="true">
+                        <con1:id>_ActionId-N560149b1.464c2b11.0.15f54c4764b.N7f1a</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>fn-bea:inlinedXML($responseQ7)</con1:xqueryText>
+                        </con3:expr>
+                    </con3:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:branch-node type="operation" id="_FlowId-N560149b1.464c2b11.0.15f54c4764b.N7f28" name="BranchNode1">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="licencias">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="Pipeline Pair Node1">
+                                <con:request>request-N560149b1.464c2b11.0.15f54c4764b.N7f27</con:request>
+                                <con:response>response-N560149b1.464c2b11.0.15f54c4764b.N7f26</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow/>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

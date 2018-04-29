@@ -1,0 +1,34 @@
+<wsdl:definitions name="fileReference" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/SB_PayRoll/GRP_COL_PBeneficios/fileReference" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/file/SB_PayRoll/GRP_COL_PBeneficios/fileReference" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:imp1="http://TargetNamespace.com/fileReference" xmlns:FILEAPP="http://xmlns.oracle.com/pcbpel/adapter/file/">
+  <plt:partnerLinkType name="Write_plt">
+    <plt:role name="Write_role">
+      <plt:portType name="tns:Write_ptt"/>
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/SB_PayRoll/GRP_COL_PBeneficios/fileReference" xmlns="http://www.w3.org/2001/XMLSchema">
+        <import namespace="http://TargetNamespace.com/fileReference" schemaLocation="../../CSV/saldoVacacionesToCSV.xsd"/>
+      </schema>
+    <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/" attributeFormDefault="qualified" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema">
+       <element name="OutboundFileHeaderType">
+         <complexType>
+           <sequence>
+             <element name="fileName" type="string"/>
+             <element name="directory" type="string"/>
+            </sequence>
+           </complexType>
+       </element>
+    </schema>
+    </wsdl:types>
+    <wsdl:message name="Write_msg">
+        <wsdl:part name="body" element="imp1:pendientes"/>
+    </wsdl:message>
+    <wsdl:message name="Output_msg">
+        <wsdl:part name="body" element="FILEAPP:OutboundFileHeaderType"/>
+    </wsdl:message>
+    <wsdl:portType name="Write_ptt">
+        <wsdl:operation name="Write">
+            <wsdl:input message="tns:Write_msg"/>
+            <wsdl:output message="tns:Output_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

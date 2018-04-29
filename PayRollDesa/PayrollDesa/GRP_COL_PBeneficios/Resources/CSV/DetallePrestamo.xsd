@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:mfl="http://www.bea.com/mfl"
+          elementFormDefault="qualified">
+
+    <xsd:element name="InfoProceso">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Pendientes"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Pendientes">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="CodigoEmpleado" type="xsd:string"/>
+                <xsd:element name="IdPrestamo" type="xsd:string"/>
+                <xsd:element name="TotalCuotas" type="xsd:string"/>
+                <xsd:element name="NumeroCuotaPagada" type="xsd:string"/>
+                <xsd:element name="ValorCuota" type="xsd:string"/>
+                <xsd:element name="FechaDescuento" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

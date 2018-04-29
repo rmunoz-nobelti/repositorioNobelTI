@@ -1,0 +1,28 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:tns="http://cl.gtd.com/vacacionesAprobadasLocRequest" targetNamespace="http://cl.gtd.com/vacacionesAprobadasLocRequest">
+
+<xsd:element name="vacacionesAprobadas">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="Interfaz7Solic">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="UNICO">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="EMP_CODIGO" type="xsd:string" />
+              <xsd:element name="PARV_DIAS_TIEMPO" type="xsd:string" />
+              <xsd:element name="PARV_DIAS_DINERO" type="xsd:string" />
+              <xsd:element name="PARV_FECHA_SALIDA" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+    </xsd:element>
+    </xsd:sequence>
+    </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
